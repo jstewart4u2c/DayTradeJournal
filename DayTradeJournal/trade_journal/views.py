@@ -1,6 +1,8 @@
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login
+from .forms import TradeEntryForm
 
 
 # Create your views here.
@@ -21,7 +23,16 @@ def calendar(request):
     return render(request, 'journal/calendar.html', {'soon': soon})
 
 
-def user_logout(request):
-    logout(request)
-    messages.success(request, 'You have been logged out successfully.')
-    return redirect('journal:home')
+def new_entry(request):
+    if request.method == 'POST':
+        form = TradeEntryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('journal:home')
+    else:
+        form = TradeEntryForm()
+
+    return render(request, 'journal/new_entry.html', {'form': form})
+
+
+

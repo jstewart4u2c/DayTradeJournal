@@ -1,4 +1,5 @@
 {% extends 'journal/base.html' %}
 {% block body %}
-<p>{{ hello }}</p>
+    <p>{{ hello }}</p>
+    <a href="{% url 'journal:newEntry' %}" class="btn btn-primary">New Trade Entry</a>
 {% endblock %}
