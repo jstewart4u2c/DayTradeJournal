@@ -6,5 +6,6 @@ class TradeEntryForm(forms.ModelForm):
     class Meta:
         model = TradeEntry
         fields = '__all__'
-        exclude = ['date', 'time', 'result']
+        exclude = ['user', 'date', 'time', 'result']
 
+    comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 40}))

@@ -1,5 +1,63 @@
 {% extends 'journal/base.html' %}
 {% block body %}
     <p>{{ hello }}</p>
-    <a href="{% url 'journal:newEntry' %}" class="btn btn-primary">New Trade Entry</a>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'journal:newEntry' %}" class="btn btn-primary">New Trade Entry</a>
+    </div>
+
+
+    <div class="table-container">
+        {% if user_entries %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Ticker</th>
+                    <th>Framework</th>
+                    <th>Strategy</th>
+                    <th>Entry Price</th>
+                    <th>Exit Price</th>
+                    <th>Quantity</th>
+                    <th>Result</th>
+                    <th>Comment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trade in user_entries %}
+                <tr>
+                    <td>{{ trade.date }}</td>
+                    <td>{{ trade.time }}</td>
+                    <td>{{ trade.ticker }}</td>
+                    <td class="text-center">{{ trade.framework }}</td>
+                    <td>{{ trade.strategy }}</td>
+                    <td>${{ trade.entry_price }}</td>
+                    <td>${{ trade.exit_price|default:"-" }}</td>
+                    <td>{{ trade.quantity }}</td>
+                    <td>
+                        {% if trade.result %}
+                            <span class="{% if trade.result > 0 %}positive{% else %}negative{% endif %}">
+                                ${{ trade.result }}
+                            </span>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ trade.comments|default:"N/A" }}</td>
+                    <td>
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a href="{% url 'journal:newEntry' %}" class="btn btn-primary">Edit</a>
+                            <a href="{% url 'journal:newEntry' %}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No trade entries yet.</p>
+        {% endif %}
+    </div>
+
 {% endblock %}
