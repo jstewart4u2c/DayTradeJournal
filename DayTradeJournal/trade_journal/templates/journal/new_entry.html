@@ -1,13 +1,34 @@
 {% extends 'journal/base.html' %}
 {% block body %}
     <div class="container d-flex justify-content-center align-items-center">
-        <div class="border p-4 shadow-lg rounded" style="width: 100%; max-width: 500px">
+        <div class="border p-4 shadow-lg rounded" style="width: 100%; max-width: 800px">
             <form method="post">
                 {% csrf_token %}
-                <div class="form-group">
-                    {{ form.as_p }}
+                <div class="form-group row">
+                        {% for field in form %}
+                            {% if field.name == 'date' %}
+                                <div class="col-12 mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            {% elif field.name == 'comments' %}
+                                <!-- Comments field always at the bottom -->
+                                <div class="col-12 mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            {% else %}
+                                <!-- Other fields with 2 per row -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                 </div>
-                <button type="submit">Save</button>
+                <div class="d-flex justify-content-center gap-2">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
             </form>
         </div>
     </div>

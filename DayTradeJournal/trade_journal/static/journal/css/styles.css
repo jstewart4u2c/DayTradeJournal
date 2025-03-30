@@ -10,6 +10,24 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-group .col-md-6 {
+  flex: 0 0 50%;
+}
+
+.form-group textarea {
+  width: 100%;
+
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
 
 #calendar {
   max-width: 1200px;
@@ -61,6 +79,17 @@ th {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.filter-container .filter-field {
+  width: 300px;
 }
 
 :root {
@@ -144,11 +173,6 @@ textarea {
     display: block;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Ensures label stays above */
-}
 
 @media (prefers-reduced-motion: no-preference) {
   :root {

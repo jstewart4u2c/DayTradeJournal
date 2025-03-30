@@ -10,6 +10,7 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 contentHeight: "auto",
+                events: {{ trade_events|safe }},
             });
             calendar.render();
         });
