@@ -1,12 +1,12 @@
 {% extends 'journal/base.html' %}
 {% block body %}
-    <p>{{ hello }}</p>
-    <div class="d-flex justify-content-center">
+    {% if user.is_authenticated %}
+    <div class="d-flex justify-content-center" style="margin-top: 10px;">
         <a href="{% url 'journal:newEntry' %}" class="btn btn-primary">New Trade Entry</a>
     </div>
 
 
-    <div class="table-container">
+    <div class="table-container">.\env/
         {% if user_entries %}
         <table>
             <thead>
@@ -47,8 +47,9 @@
                     <td>{{ trade.comments|default:"N/A" }}</td>
                     <td>
                         <div class="d-flex gap-2 justify-content-center">
-                            <a href="{% url 'journal:newEntry' %}" class="btn btn-primary">Edit</a>
-                            <a href="{% url 'journal:newEntry' %}" class="btn btn-danger">Delete</a>
+                            <a href="{% url 'journal:editEntry' trade.id %}" class="btn btn-primary">Edit</a>
+                            <a href="{% url 'journal:deleteEntry' trade.id %}" class="btn btn-danger"
+                               onclick="return confirm('Are you sure you want to delete this entry?');">Delete</a>
                         </div>
                     </td>
                 </tr>
@@ -59,5 +60,12 @@
             <p>No trade entries yet.</p>
         {% endif %}
     </div>
+
+    {% else %}
+        <div class="d-flex justify-content-center">
+            <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}" class="">Create Account</a> to get started!</p>
+        </div>
+
+    {% endif %}
 
 {% endblock %}

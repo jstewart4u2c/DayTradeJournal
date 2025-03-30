@@ -2,12 +2,13 @@
 {% block body %}
     <div class="container d-flex justify-content-center align-items-center">
         <div class="border p-4 shadow-lg rounded" style="width: 100%; max-width: 500px">
-            <form method="post" class="form-group">
+            <form method="post">
                 {% csrf_token %}
-                {{ form }}
-                <button type="submit" class="btn btn-success">Register</button>
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit">Save</button>
             </form>
         </div>
     </div>
-
 {% endblock %}

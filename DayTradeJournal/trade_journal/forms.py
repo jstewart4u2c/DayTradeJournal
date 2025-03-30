@@ -8,4 +8,5 @@ class TradeEntryForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['user', 'date', 'time', 'result']
 
-    comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 40}))
+    comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 40}), required=False)
+
