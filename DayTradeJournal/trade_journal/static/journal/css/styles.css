@@ -10,6 +10,46 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+.page-number {
+  padding: 6px 12px;
+  background-color: #e0f2ff;
+  color: #007acc;
+  font-weight: bold;
+  border: 1px solid #007acc;
+  border-radius: 4px;
+}
+
+.pagination a {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: all 0.2s ease;
+}
+
+.pagination a:hover {
+  background-color: #e6e6e6;
+  border-color: #999;
+  cursor: pointer;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 600px);
+    grid-template-rows: repeat(2, 420px);
+    gap: 30px;
+    justify-content: center;
+}
+
+.chart-grid div {
+    text-align: center;
+    margin-top: 10px;
+}
+
 .form-group {
   display: flex;
   flex-wrap: wrap;
@@ -55,11 +95,13 @@ table tr {
 
 table td {
   border-right: 1px solid rgb(0,0,0,.2) ;
+
 }
 
 th, td {
   padding: 10px;
   text-align: left;
+  white-space: nowrap;
 }
 
 th {
@@ -85,7 +127,7 @@ th {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .filter-container .filter-field {

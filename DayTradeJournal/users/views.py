@@ -1,7 +1,7 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
-from .forms import RegisterForm
+from .forms import RegisterForm, UpdateProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -43,7 +43,15 @@ def user_logout(request):
 
 @login_required()
 def profile(request):
-    return render(request, 'users/profile.html')
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UpdateProfileForm(instance=request.user)
+
+    return render(request, 'users/profile.html', {'form': form})
 
 
 

@@ -55,9 +55,14 @@ class TradeEntry(models.Model):
     result = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
 
+    # Auto result calculation using the trade entry and exit prices
     def calculate_result(self):
         if self.exit_price is not None:
             return (self.exit_price - self.entry_price) * self.quantity
         return None
 
+    # Save method override to calculate result using above method
+    def save(self, *args, **kwargs):
+        self.result = self.calculate_result()
+        super().save(*args, **kwargs)
 

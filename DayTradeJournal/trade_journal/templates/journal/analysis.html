@@ -1,4 +1,183 @@
 {% extends 'journal/base.html' %}
 {% block body %}
-    {{ charts }}
+
+<div class="chart-grid">
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <h3>Win Rate by Strategy</h3>
+        <canvas id="winRateBar" width="600" height="400"></canvas>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <h3>Strategy Usage</h3>
+        <canvas id="strategyPie" width="600" height="400"></canvas>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <h3>Trade Period W/L</h3>
+        <canvas id="tradePeriodBar" width="600" height="400"></canvas>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <h3>Cumulative Profit</h3>
+        <canvas id="profitLine" width="600" height="400"></canvas>
+    </div>
+</div>
+
+{{ strats|json_script:"strats-data" }}
+{{ win_rates|json_script:"winrates-data" }}
+{{ strategy_count|json_script:"strat-count" }}
+{{ period_labels|json_script:"period-labels" }}
+{{ period_wins|json_script:"period-wins" }}
+{{ period_losses|json_script:"period-losses" }}
+{{ profit|json_script:"profit" }}
+{{ dates|json_script:"dates" }}
+
+<script>
+
+    const strats = JSON.parse(document.getElementById('strats-data').textContent);
+    const winRates = JSON.parse(document.getElementById('winrates-data').textContent);
+    const stratCount = JSON.parse(document.getElementById('strat-count').textContent);
+    const periodLabels = JSON.parse(document.getElementById('period-labels').textContent);
+    const periodWins = JSON.parse(document.getElementById('period-wins').textContent);
+    const periodLosses = JSON.parse(document.getElementById('period-losses').textContent);
+    const profit = JSON.parse(document.getElementById('profit').textContent);
+    const dates = JSON.parse(document.getElementById('dates').textContent);
+
+    // Win Rate Chart
+    const context = document.getElementById('winRateBar');
+    const winRateBar = new Chart(context, {
+        type: 'bar',
+        data: {
+            labels: strats,
+            datasets: [{
+                label: "Win Rate",
+                data: winRates,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Win Rate (%)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Strategy'
+                    }
+                }
+
+            }
+        }
+    })
+
+    // Strategy Usage
+    const stratsPieContext = document.getElementById('strategyPie');
+    const stratsPieChart = new Chart(stratsPieContext, {
+        type: 'doughnut',
+        data: {
+            labels: strats,
+            datasets: [{
+                label: 'Strategy Usage',
+                data: stratCount,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',   // Red
+                    'rgba(54, 162, 235, 0.6)',   // Blue
+                    'rgba(255, 206, 86, 0.6)',   // Yellow
+                    'rgba(75, 192, 192, 0.6)',   // Teal
+                    'rgba(153, 102, 255, 0.6)',  // Purple
+                    'rgba(255, 159, 64, 0.6)',   // Orange
+                    'rgba(201, 203, 207, 0.6)'   // Light Grey
+                ],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        }
+    })
+
+    // Trade Period Chart
+    const tradePeriodContext = document.getElementById('tradePeriodBar');
+    const tradePeriodChart = new Chart(tradePeriodContext, {
+        type: 'bar',
+        data: {
+            labels: periodLabels,
+            datasets: [{
+                label: 'Wins',
+                data: periodWins,
+                backgroundColor: 'rgba(75, 192, 192, 0.7)'
+            }, {
+                label: 'Losses',
+                data: periodLosses,
+                backgroundColor: 'rgba(255, 99, 132, 0.7)'
+            }]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Trades'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Trade Period'
+                    }
+                }
+            }
+        }
+    })
+
+    // Profit over time
+    const profitContext = document.getElementById('profitLine');
+    const profitLine = new Chart(profitContext, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Total Profit',
+                data: profit,  // y-axis is the cumulative profit
+                fill: false,
+                borderColor: 'rgb(60, 179, 113)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: false,
+            elements: {
+              point: {
+                  radius: 5,
+                  hoverRadius: 8,
+                  hitRadius: 15,
+              }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Profit'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    })
+
+</script>
 {% endblock %}

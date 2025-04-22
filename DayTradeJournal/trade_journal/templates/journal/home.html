@@ -1,10 +1,13 @@
 {% extends 'journal/base.html' %}
 {% block body %}
+
+    <!-- if user is logged in, show new trade button -->
     {% if user.is_authenticated %}
     <div class="d-flex justify-content-center" style="margin-top: 10px;">
         <a href="{% url 'journal:newEntry' %}" class="btn btn-primary">New Trade Entry</a>
     </div>
 
+    <!-- Filter Dropdowns -->
     <div class="filter-container">
         <form method="GET">
             {% csrf_token %}
@@ -51,7 +54,7 @@
         </form>
     </div>
 
-
+    <!-- Table to show entries if available -->
     <div class="table-container">
         {% if user_entries %}
         <table>
@@ -85,9 +88,9 @@
                     <td>${{ trade.exit_price|default:"-" }}</td>
                     <td>{{ trade.quantity }}</td>
                     <td>
-                        {% if trade.calculate_result %}
-                            <span class="{% if trade.calculate_result > 0 %}positive{% else %}negative{% endif %}">
-                                ${{ trade.calculate_result }}
+                        {% if trade.result %}
+                            <span class="{% if trade.result > 0 %}positive{% else %}negative{% endif %}">
+                                ${{ trade.result }}
                             </span>
                         {% else %}
                             -
@@ -107,6 +110,30 @@
         {% endif %}
     </div>
 
+    <!-- Paginator to tab through entries -->
+    <div class="pagination" style="display: flex; justify-content: center; margin-top: 20px">
+        <span class="step-links">
+          {% if obj.has_previous %}
+            <a href="?page={{ obj.previous_page_number }}&framework={{ request.GET.framework }}&strategy={{ request.GET.strategy }}&result={{ request.GET.result }}">Previous</a>
+          {% endif %}
+
+          {% for num in obj.paginator.page_range %}
+            {% if num == obj.number %}
+              <span class="page-number active">{{ num }}</span>
+            {% elif num == 1 or num == obj.paginator.num_pages or num >= obj.number|add:-2 and num <= obj.number|add:2 %}
+              <a href="?page={{ num }}&framework={{ request.GET.framework }}&strategy={{ request.GET.strategy }}&result={{ request.GET.result }}">{{ num }}</a>
+            {% elif num == obj.number|add:-3 or num == obj.number|add:3 %}
+              <span class="dots">…</span>
+            {% endif %}
+          {% endfor %}
+
+          {% if obj.has_next %}
+            <a href="?page={{ obj.next_page_number }}&framework={{ request.GET.framework }}&strategy={{ request.GET.strategy }}&result={{ request.GET.result }}">Next</a>
+          {% endif %}
+        </span>
+    </div>
+
+    <!-- if user isn't authenticated -->
     {% else %}
         <div class="d-flex justify-content-center">
             <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}" class="">Create Account</a> to get started!</p>
