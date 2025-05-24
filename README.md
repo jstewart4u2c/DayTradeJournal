@@ -14,12 +14,16 @@
 **Images**
 <p>Home Page</p>
 <img src="images/TradeHome.png" height="366" width="650">
+<hr>
 
 <p>Filtered Entries</p>
 <img src="images/FunctionalFilter.png" height="366" width="650">
+<hr>
 
 <p>Trade Entry Form</p>
 <img src="images/EditForm.png" height="366" width="650">
+<hr>
 
 <p>Chart Analysis</p>
 <img src="images/TradeAnalysis.png" height="366" width="650">
+<hr>
