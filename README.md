@@ -17,7 +17,7 @@
 <hr>
 
 <p>Filtered Entries</p>
-<img src="images/FunctionalFilter.png" height="350" width="auto">
+<img src="images/FunctionalFilter.png" height="300" width="auto">
 <hr>
 
 <p>Trade Entry Form</p>
