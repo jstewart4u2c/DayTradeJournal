@@ -8,3 +8,22 @@
 7. Once Django installation is complete, enter "cd DayTradeJournal" and then enter "python manage.py migrate" to initialize your local database. 
 8. Once migration is complete, enter "python manage.py runserver"
 9. Click the local server in your terminal (should look like http://127.0.0.1:8000/ or similar) and the project should open in your default browser!
+
+<hr>
+
+**Images**
+<p>Home Page</p>
+<img src="images/TradeHome.png" height="366" width="auto">
+<hr>
+
+<p>Filtered Entries</p>
+<img src="images/FunctionalFilter.png" height="300" width="auto">
+<hr>
+
+<p>Trade Entry Form</p>
+<img src="images/EditForm.png" height="366" width="auto">
+<hr>
+
+<p>Chart Analysis</p>
+<img src="images/TradeAnalysis.png" height="366" width="auto">
+<hr>
