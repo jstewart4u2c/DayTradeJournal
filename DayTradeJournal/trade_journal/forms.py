@@ -9,6 +9,12 @@ class TradeEntryForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['user', 'result']
 
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'entry_time': forms.TimeInput(attrs={'class': 'flatpickr-time', 'type': 'text'}),
+            'exit_time': forms.TimeInput(attrs={'class': 'flatpickr-time', 'type': 'text'}),
+        }
+
     comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 40}), required=False)
 
     date = forms.DateField(

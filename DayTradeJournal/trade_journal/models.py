@@ -3,6 +3,7 @@ from datetime import timezone
 from django.conf import settings
 from django.db import models
 from django import forms
+from datetime import time
 
 
 # Create your models here.
@@ -50,8 +51,10 @@ class TradeEntry(models.Model):
     framework = models.PositiveIntegerField(choices=framework_choices, default=1)
     strategy = models.CharField(max_length=50, choices=strategy_choices)
     entry_price = models.DecimalField(max_digits=10, decimal_places=2)
-    exit_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    entry_time = models.TimeField(default=time(8, 30))
     quantity = models.IntegerField()
+    exit_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    exit_time = models.TimeField(null=True, blank=True)
     result = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
 
